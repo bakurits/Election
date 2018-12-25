@@ -1,9 +1,9 @@
 pragma solidity >0.4.22;
 
 contract Voting{
-    address public creator;
-    mapping(bytes32 => Candidate) public candidates;
-    mapping(address => mapping(bytes32 => bool)) public voted;
+    address private creator;
+    mapping(bytes32 => Candidate) private candidates;
+    mapping(address => mapping(bytes32 => bool)) private voted;
 
     struct Candidate{
         bytes32 name;
@@ -16,24 +16,11 @@ contract Voting{
         creator = msg.sender;
     }
 
-    function stringToBytes32(string memory src)returns (bytes32 result) {
-        require(src.length<=32);
-
-        if (src.length == 0) {
-            return 0x0;
-        }
-
-        assembly {
-            result := mload(add(src, 32))
-        }
-
-    }
-
     function vote(bytes32 name_) public{
         address sender = msg.sender;
-        if(voted[sender][name_]) return;
-
-        voted[sender][name] =true;
+        if(voted[sender][name_]) 
+            return;
+        voted[sender][name_] = true;
         candidates[name_].num_votes++;
     }
 
@@ -49,8 +36,11 @@ contract Voting{
         }
     }
 
-    function getCandidate(bytes32 name_) returns(Candidate candidate){
-        return candidates[name_];
+    function getCandidate(bytes32 name_) public view returns(bytes32 name,
+        bytes memory description,
+        bytes32 image_hash,
+        uint num_votes){
+        return (candidates[name_].name, candidates[name_].description, candidates[name_].image_hash, candidates[name_].num_votes);
     }
 
 }
