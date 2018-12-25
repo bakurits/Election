@@ -4,8 +4,8 @@ const Web3 = require('web3')
 const fs = require('fs');
 const bodyParser = require('body-parser');
 var ipfsClient = require('ipfs-http-client')
-const bitswap = require('ipfs-http-client/src/bitswap')('/ip4/127.0.0.1/tcp/5001')
-var ipfs = ipfsClient('/ip4/127.0.0.1/tcp/5001')
+const bitswap = require('ipfs-http-client/src/bitswap')('/ip4/127.0.0.1/tcp/8080')
+var ipfs = ipfsClient('/ip4/127.0.0.1/tcp/8080')
 
 if (typeof web3 !== 'undefined') {
     web3 = new Web3(web3.currentProvider);
@@ -16,7 +16,7 @@ if (typeof web3 !== 'undefined') {
 const app = express()
 const port = 3000
 
-app.get('/', (req, res) => res.sendFile(__dirname + '/index.html'))
+app.get('/', (req, res) => res.sendFile(__dirname + '/index1.html'))
 
 app.get('/addfile', function (req, res) {
     const fileBuffer = req.file;
