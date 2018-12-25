@@ -31,8 +31,8 @@ function encode(input) {
 
 /**
  * This method retrieves image from ipfs
- * @param {hash of file} file_hash 
- * @param {div where we want to put pur image} image_div 
+ * @param {string} file_hash hash of file that we want to retrieve
+ * @param {HTMLElement} image_div div where we want to put this file
  */
 function get_photo(file_hash, image_div) {
     ipfs.get(file_hash, function (err, res) {
