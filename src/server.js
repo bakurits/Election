@@ -16,7 +16,7 @@ if (typeof web3 !== 'undefined') {
 const app = express()
 const port = 3000
 app.get('/', function(req, res) {
-    res.sendFile(__dirname + '/index.html');
+    res.sendFile(__dirname + '/index1.html');
 });
 app.get('/client.js', function(req, res) {
     res.sendFile(__dirname + '/client.js');

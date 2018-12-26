@@ -22,14 +22,14 @@
                 content: buf
             }
         ]
-
-        ipfs.add(buf, (err, result) => { // Upload buffer to IPFS
+        console.log(file)
+        ipfs.add(file, (err, result) => { // Upload buffer to IPFS
           if(err) {
             console.error(err)
             return
           }
           console.log(result)
-          let url = `http://localhost:5001/ipfs/${result[0].hash}/#/files/${file_name}`
+          let url = `http://localhost:5001/ipfs/${result[0].hash}`
           console.log(`Url --> ${url}`)
           document.getElementById("url").innerHTML= url
           document.getElementById("url").href= url
