@@ -30,10 +30,113 @@
 
 <script>
     let accounts = web3.eth.accounts;
-    select_div = "<select>";
+    select_div = "<select id =\"options\">";
     for (let i = 1; i < accounts.length; i++) {
         select_div += "<option value=\"" + accounts[i] + "\">" + accounts[i] + "</option>";
     }
     select_div += "</select>";
     document.body.innerHTML += select_div;
+</script>
+
+<script>
+
+    var VoutingContract = web3.eth.contract([
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "name_",
+                    "type": "bytes32"
+                },
+                {
+                    "name": "description_",
+                    "type": "bytes"
+                },
+                {
+                    "name": "image_hash_",
+                    "type": "bytes32"
+                }
+            ],
+            "name": "addCandidate",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "name_",
+                    "type": "bytes32"
+                }
+            ],
+            "name": "vote",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "name_",
+                    "type": "bytes32"
+                }
+            ],
+            "name": "getCandidate",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "bytes32"
+                },
+                {
+                    "name": "",
+                    "type": "bytes"
+                },
+                {
+                    "name": "",
+                    "type": "bytes32"
+                },
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "constructor"
+        }
+    ]);
+
+    // Voting button
+
+    $("Vote").click(function(){
+        var e = document.getElementById('options');
+        var addr = e.options[e.selectedIndex].text;
+        var vouting = VoutingContract.at(addr);
+        vouting.vote($("#name").val());
+
+
+    });
+
+    $('Add').click(function(){
+
+        var e = document.getElementById('options');
+        var addr = e.options[e.selectedIndex].text;
+        var vouting = VoutingContract.at(addr);
+        vouting.addCandidate($("#name").val(), $("#description").val() /*,getImageHash()*/);
+
+    });
+
+
+
+
 </script>
