@@ -21,6 +21,9 @@ app.get('/', function(req, res) {
 app.get('/client.js', function(req, res) {
     res.sendFile(__dirname + '/client.js');
 });
+app.get('/web3.js', function(req, res) {
+    res.sendFile(__dirname + '/js/web3.min.js');
+});
 
 
 app.get('/addfile', function (req, res) {
