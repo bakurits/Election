@@ -36,10 +36,7 @@ contract Voting{
         }
     }
 
-    function getCandidate(bytes32 name_) public view returns(bytes32 name,
-        bytes memory description,
-        bytes32 image_hash,
-        uint num_votes){
+    function getCandidate(bytes32 name_) public view returns(bytes32, bytes memory,bytes32, uint){
         return (candidates[name_].name, candidates[name_].description, candidates[name_].image_hash, candidates[name_].num_votes);
     }
 
