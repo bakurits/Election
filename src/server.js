@@ -1,13 +1,11 @@
 const express = require('express')
 const ipfsAPI = require('ipfs-api');
-const multer = require('multer');
-const mime    =   require('mime');
 const Web3 = require('web3')
 const fs = require('fs');
 const bodyParser = require('body-parser');
-
-
-const ipfs = ipfsAPI('ipfs.infura.io', '5001', { protocol: 'https' })
+var ipfsClient = require('ipfs-http-client')
+const bitswap = require('ipfs-http-client/src/bitswap')('/ip4/127.0.0.1/tcp/8080')
+var ipfs = ipfsClient('/ip4/127.0.0.1/tcp/8080')
 
 if (typeof web3 !== 'undefined') {
     web3 = new Web3(web3.currentProvider);
@@ -17,60 +15,13 @@ if (typeof web3 !== 'undefined') {
 }
 const app = express()
 const port = 3000
+app.get('/', function(req, res) {
+    res.sendFile(__dirname + '/index.html');
+});
+app.get('/client.js', function(req, res) {
+    res.sendFile(__dirname + '/client.js');
+});
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-
-//MULTER CONFIG: to get file photos to temp server storage
-// const multerConfig = {
-
-//     storage: multer.diskStorage({
-//         //Setup where the user's file will go
-//         destination: function (req, file, next) {
-//             next(null, './public/photo-storage');
-//         },
-
-//         //Then give the file a unique name
-//         filename: function (req, file, next) {
-//             console.log(file);
-//             const ext = file.mimetype.split('/')[1];
-//             next(null, file.fieldname + '-' + Date.now() + '.' + ext);
-//         }
-//     }),
-
-//     //A means of ensuring only images are uploaded. 
-//     fileFilter: function (req, file, next) {
-//         if (!file) {
-//             next();
-//         }
-//         const image = file.mimetype.startsWith('image/');
-//         if (image) {
-//             console.log('photo uploaded');
-//             next(null, true);
-//         } else {
-//             console.log("file not supported");
-//             app.post('/upload', multer(multerConfig).single('photo'), function (req, res) {
-//                 res.send('Complete!');
-//             });
-//             //TODO:  A better message response to user on failure.
-//             return next();
-//         }
-//     }
-// };
-
-var storage	=	multer.diskStorage({
-    destination: function (req, file, callback) {
-      callback(null, './uploads');
-    },
-    filename: function (req, file, callback) {
-      callback(null, file.fieldname + '-' + Date.now() + '.' + mime.extension(file.mimetype));
-    }
-  });
-var upload = multer({ storage : storage }).array('userPic');
-
-
-app.get('/', (req, res) => res.sendFile(__dirname + '/index.html'))
-app.use('/', express.static(__dirname + '/public'));
 
 app.get('/addfile', function (req, res) {
     const fileBuffer = req.file;
@@ -83,12 +34,13 @@ app.get('/addfile', function (req, res) {
     })
 
 })
+
 app.post('/upload', function (req, res) {
-    upload(req,res,function(err) {
+    upload(req, res, function (err) {
         console.log(req.body.user);
-	    console.log(req.body.email);
-		console.log(req.files); 
-	});
+        console.log(req.body.email);
+        console.log(req.files);
+    });
     console.log('Complete!');
 });
 
@@ -106,4 +58,3 @@ app.post('/getfile', function (req, res) {
 })
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
-
