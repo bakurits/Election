@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <head>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://unpkg.com/ipfs-http-client/dist/index.min.js"></script>
     <script type="text/javascript" src="web3.js"></script>
     <script src="client.js"></script>
@@ -124,15 +124,6 @@
         var vouting = VoutingContract.at(addr);
         vouting.vote($("#name").val());
 
-
-    });
-
-    $('Add').click(function(){
-
-        var e = document.getElementById('options');
-        var addr = e.options[e.selectedIndex].text;
-        var vouting = VoutingContract.at(addr);
-        vouting.addCandidate($("#name").val(), $("#description").val() /*,getImageHash()*/);
 
     });
 
