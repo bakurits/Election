@@ -63,6 +63,10 @@ function vote(ind) {
     location.reload();
 }
 
+function voteForCandidate(idx) {
+    console.log(idx);
+}
+
 
 function sendContract() {
     console.log(file)
@@ -92,7 +96,7 @@ function sendContract() {
             console.log(res[0].hash)
             vouting.addCandidate.sendTransaction(name, description, res[0].hash, {
                 from: addr,
-                gas: 123123,
+                gas: 1231233,
                 data: "asdasd" // deploying a contracrt
             }, function (error, hash) {
                 if (error) {
