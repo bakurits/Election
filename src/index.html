@@ -172,8 +172,8 @@
     <div id="modal" class="modal">
         <div id="modal-body" class="modal-body">
             <div class="modal-input-container">
-                <input type="text" placeholder="saxeli" class="modal-input">
-                <input type="text" placeholder="gvari" class="modal-input">
+                <input type="text" placeholder="saxeli" class="modal-input" id="name">
+                <input type="text" placeholder="gvari" class="modal-input" id="description">
             </div>
             <div class="drag-and-drop" id="drag-and-drop" ondrop="drop(event)" ondragover="allowDrop(event)">
                 Drag and drop files here
@@ -206,106 +206,106 @@
 
 <script>
 
-    let abi =[
-    {
-      "inputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "constructor",
-      "signature": "constructor"
-    },
-    {
-      "constant": false,
-      "inputs": [
+    let abi = [
         {
-          "name": "id",
-          "type": "uint256"
+            "inputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "constructor",
+            "signature": "constructor"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "id",
+                    "type": "uint256"
+                }
+            ],
+            "name": "vote",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function",
+            "signature": "0x0121b93f"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "_name",
+                    "type": "string"
+                },
+                {
+                    "name": "_description",
+                    "type": "string"
+                },
+                {
+                    "name": "_image_hash",
+                    "type": "string"
+                }
+            ],
+            "name": "addCandidate",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function",
+            "signature": "0xad71f8dc"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "getCandidateCount",
+            "outputs": [
+                {
+                    "name": "count",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function",
+            "signature": "0x30a56347"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "ind",
+                    "type": "uint256"
+                }
+            ],
+            "name": "getCandidate",
+            "outputs": [
+                {
+                    "name": "id",
+                    "type": "uint256"
+                },
+                {
+                    "name": "name",
+                    "type": "string"
+                },
+                {
+                    "name": "description",
+                    "type": "string"
+                },
+                {
+                    "name": "image_hash",
+                    "type": "string"
+                },
+                {
+                    "name": "num_votes",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function",
+            "signature": "0x35b8e820"
         }
-      ],
-      "name": "vote",
-      "outputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function",
-      "signature": "0x0121b93f"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "_name",
-          "type": "string"
-        },
-        {
-          "name": "_description",
-          "type": "string"
-        },
-        {
-          "name": "_image_hash",
-          "type": "bytes32"
-        }
-      ],
-      "name": "addCandidate",
-      "outputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function",
-      "signature": "0x71e4a420"
-    },
-    {
-      "constant": true,
-      "inputs": [],
-      "name": "getCandidateCount",
-      "outputs": [
-        {
-          "name": "count",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function",
-      "signature": "0x30a56347"
-    },
-    {
-      "constant": true,
-      "inputs": [
-        {
-          "name": "ind",
-          "type": "uint256"
-        }
-      ],
-      "name": "getCandidateWithIndex",
-      "outputs": [
-        {
-          "name": "id",
-          "type": "uint256"
-        },
-        {
-          "name": "name",
-          "type": "string"
-        },
-        {
-          "name": "description",
-          "type": "string"
-        },
-        {
-          "name": "image_hash",
-          "type": "bytes32"
-        },
-        {
-          "name": "num_votes",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function",
-      "signature": "0xc03af9d9"
-    }
-  ];
+    ];
     var e = document.getElementById('options');
-    let contractAddr = "0xe040370f5155bc2157ebb7955015fF03090F70F6";
+    let contractAddr = "0x50dac0B0666076B16E18Af0Bf7cEE6CAa9f618BA";
     var VoutingContract = web3.eth.contract(abi, contractAddr);
     var addr = e.options[e.selectedIndex].text;
     var vouting = VoutingContract.at(contractAddr);
@@ -332,19 +332,22 @@
         let candidateCount = res;
         console.log(res);
         for (let i = 0; i < candidateCount; i++) {
-            vouting.getCandidateWithIndex.call(i, function (err, res) {
+            vouting.getCandidate.call(i, function (err, res) {
                 if (err) {
                     console.log("Error occured");
                     return;
                 }
                 console.log(res);
-                var addDiv = "<div class=\"candidate-item\">\n" +
-                    "            <img class=\"avatar-img\" src=\"maxresdefault.jpg\">\n" +
-                    "            <p>saxeli</p>\n" +
-                    "            <p>gvari</p>\n" +
-                    "            <button class=\"vote-button\">Vote</button>\n" +
-                    "        </div>"
-                document.getElementById("candidates").innerHTML += addDiv;
+                ipfs.get(res[3], function (err, res1) {
+                    let arr = res1[0].content;
+                    var addDiv = "<div class=\"candidate-item\">\n" +
+                        "            <img class=\"avatar-img\" src=\"data:image/png;base64," + encode(arr) + "\">\n" +
+                        "            <p>" + res[1] + "</p>\n" +
+                        "            <p>" + res[2] + "</p>\n" +
+                        "            <button class=\"vote-button\" onclick = \"voteForCandidate(" + res[0] + ")\">Vote</button>\n" +
+                        "        </div>"
+                    document.getElementById("candidates").innerHTML += addDiv;
+                });
             });
         }
     });
