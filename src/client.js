@@ -41,49 +41,6 @@ function get_photo(file_hash, image_div) {
     });
 }
 
-/**
- * This method adds picture in ipfs
- */
-function add_file() {
-    let file = document.getElementById("upload-image").files[0];
-    console.log(file)
-    var reader = new FileReader();
-    reader.onloadend = function () {
-        const files = [
-            {
-                path: file.name,
-                content: ipfs.types.Buffer.from(reader.result)
-            }
-        ]
-        ipfs.add(files, function (err, res) {
-            // ერრორი რო გავტესტოთ რა
-            if (err) {
-                console.error(err)
-                return
-            }
-
-            var e = document.getElementById('options');
-            var addr = e.options[e.selectedIndex].text;
-            var vouting = VoutingContract.at(contractAddr);
-            var name = $("#name").val()
-            var description = $("#description").val()
-
-            vouting.addCandidate.sendTransaction(name, description, res[0].hash, {
-                from: addr,
-                gas: 123123,
-                data: "asdasd" // deploying a contracrt
-            }, function (error, hash) {
-                if (error) {
-                    console.log(error);
-                }
-                console.log(hash);
-            });
-
-        });
-
-    };
-    reader.readAsArrayBuffer(file);
-}
 
 function vote(ind) {
     var e = document.getElementById('options');
@@ -105,8 +62,10 @@ function vote(ind) {
 
     location.reload();
 }
+
+
 function sendContract() {
-    console.log(file);
+    console.log(file)
     var reader = new FileReader();
     reader.onloadend = function () {
         const files = [
@@ -116,18 +75,32 @@ function sendContract() {
             }
         ]
         ipfs.add(files, function (err, res) {
-            if(err) {
+            // ერრორი რო გავტესტოთ რა
+            if (err) {
                 console.error(err)
                 return
             }
 
             var e = document.getElementById('options');
             var addr = e.options[e.selectedIndex].text;
-            var vouting = VoutingContract.at(addr);
-            console.log(res[0].hash);
-            vouting.addCandidate($("#name").val(), $("#description").val(), res[0].hash);
+            var vouting = VoutingContract.at(contractAddr);
+            var name = $("#name").val()
+            var description = $("#description").val()
+            console.log(name);
+            console.log(description);
+            console.log(addr);
+            console.log(res[0].hash)
+            vouting.addCandidate.sendTransaction(name, description, res[0].hash, {
+                from: addr,
+                gas: 123123,
+                data: "asdasd" // deploying a contracrt
+            }, function (error, hash) {
+                if (error) {
+                    console.log(error);
+                }
+                console.log(hash);
+            });
 
-            get_photo(res[0].hash, document.getElementById('sample-image'))
         });
 
     };
