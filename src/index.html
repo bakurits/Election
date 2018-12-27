@@ -43,7 +43,29 @@
 
     let abi = [
         {
-            "constant": "false",
+            "inputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "constructor",
+            "signature": "constructor"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "name_",
+                    "type": "bytes32"
+                }
+            ],
+            "name": "vote",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function",
+            "signature": "0xa69beaba"
+        },
+        {
+            "constant": false,
             "inputs": [
                 {
                     "name": "name_",
@@ -62,21 +84,8 @@
             "outputs": [],
             "payable": false,
             "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "constant": false,
-            "inputs": [
-                {
-                    "name": "name_",
-                    "type": "bytes32"
-                }
-            ],
-            "name": "vote",
-            "outputs": [],
-            "payable": false,
-            "stateMutability": "nonpayable",
-            "type": "function"
+            "type": "function",
+            "signature": "0x2b34fc6d"
         },
         {
             "constant": true,
@@ -86,7 +95,7 @@
                     "type": "bytes32"
                 }
             ],
-            "name": "getCandidate",
+            "name": "getCandidateWithName",
             "outputs": [
                 {
                     "name": "",
@@ -107,17 +116,59 @@
             ],
             "payable": false,
             "stateMutability": "view",
-            "type": "function"
+            "type": "function",
+            "signature": "0x6ba4623a"
         },
         {
+            "constant": true,
             "inputs": [],
+            "name": "getCandidateCount",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
             "payable": false,
-            "stateMutability": "nonpayable",
-            "type": "constructor"
+            "stateMutability": "view",
+            "type": "function",
+            "signature": "0x30a56347"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "ind",
+                    "type": "uint256"
+                }
+            ],
+            "name": "getCandidateWithIndex",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "bytes32"
+                },
+                {
+                    "name": "",
+                    "type": "bytes"
+                },
+                {
+                    "name": "",
+                    "type": "bytes32"
+                },
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function",
+            "signature": "0xc03af9d9"
         }
     ];
     let contractAddr = "0xAc3075a97938C9A910c37AeB5b8a346431952F2F";
-    var VoutingContract = new web3.eth.contract(abi, contractAddr);
+    var VoutingContract = web3.eth.contract(abi, contractAddr);
 
     // Voting button
 

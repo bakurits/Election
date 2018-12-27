@@ -1,7 +1,7 @@
 // basic base64 encode 
 // You can see more here : http://www.webtoolkit.info/javascript-base64.html
 function encode(input) {
-    
+
     var keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
     var output = "";
     var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
@@ -57,19 +57,21 @@ function add_file() {
         ]
         ipfs.add(files, function (err, res) {
             // ერრორი რო გავტესტოთ რა
-            if(err) {
+            if (err) {
                 console.error(err)
                 return
             }
 
             var e = document.getElementById('options');
             var addr = e.options[e.selectedIndex].text;
-            var vouting = VoutingContract.at(addr);
+            var vouting = VoutingContract.at(contractAddr);
             console.log(res[0].hash);
             var name = $("#name").val()
             var description = $("#description").val()
-            vouting.addCandidate(name, description, res[0].hash);
-    
+            vouting.getCandidateCount.call(function (e, r) {
+                console.log(r);
+            });
+
             get_photo(res[0].hash, document.getElementById('sample-image'))
         });
 
