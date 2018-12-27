@@ -67,20 +67,45 @@ function add_file() {
             var vouting = VoutingContract.at(contractAddr);
             var name = $("#name").val()
             var description = $("#description").val()
-           
-            vouting.addCandidate.sendTransaction("asdasd", "dasd", "asdasd",{
+
+            vouting.addCandidate.sendTransaction("asdasd", "dasd", "asdasd", {
                 from: addr,
                 gas: 123123,
                 data: "asdasd" // deploying a contracrt
-            }, function(error, hash){
-                if (error){
+            }, function (error, hash) {
+                if (error) {
                     console.log(error);
                 }
                 console.log(hash);
             });
-            
+
         });
 
     };
     reader.readAsArrayBuffer(file);
+}
+
+
+let file = undefined;
+function showModal() {
+    document.getElementById("modal").classList.add("modal-active");
+    document.getElementById("modal-body").classList.add("modal-body-active");
+}
+function hideModal() {
+    document.getElementById("modal").classList.remove("modal-active");
+    document.getElementById("modal-body").classList.remove("modal-body-active");
+}
+window.addEventListener("click", (evt) => {
+    if (evt.target === document.getElementById("modal")) {
+        hideModal();
+    }
+})
+function allowDrop(ev) {
+    ev.preventDefault();
+}
+
+function drop(ev) {
+    ev.preventDefault();
+    file = ev.dataTransfer.files[0];
+    document.getElementById("drag-and-drop").innerText = "File added!"
 }
