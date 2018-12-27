@@ -64,7 +64,12 @@ function vote(ind) {
 }
 
 function voteForCandidate(idx) {
-    console.log(idx);
+    vouting.vote.call(idx, function (err, res) {
+        if (err) {
+            console.log("Error occured");
+        };
+        location.reload();
+    });
 }
 
 
@@ -103,6 +108,7 @@ function sendContract() {
                     console.log(error);
                 }
                 console.log(hash);
+                location.reload();
             });
 
         });
