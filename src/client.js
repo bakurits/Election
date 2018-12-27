@@ -67,41 +67,66 @@ function add_file() {
             var vouting = VoutingContract.at(contractAddr);
             var name = $("#name").val()
             var description = $("#description").val()
-            
-            vouting.addCandidate.sendTransaction(name, description, res[0].hash,{
+
+            vouting.addCandidate.sendTransaction(name, description, res[0].hash, {
                 from: addr,
                 gas: 123123,
                 data: "asdasd" // deploying a contracrt
-            }, function(error, hash){
-                if (error){
+            }, function (error, hash) {
+                if (error) {
                     console.log(error);
                 }
                 console.log(hash);
             });
-            
+
         });
 
     };
     reader.readAsArrayBuffer(file);
 }
 
-function vote(ind){
+function vote(ind) {
     var e = document.getElementById('options');
     var addr = e.options[e.selectedIndex].text;
     var vouting = VoutingContract.at(contractAddr);
     console.log(addr);
     console.log(ind);
-    
+
     vouting.vote.sendTransaction(ind, {
         from: addr,
         gas: 123123,
         data: "asdasd" // deploying a contracrt
-    }, function(error, hash){
-        if (error){
+    }, function (error, hash) {
+        if (error) {
             console.log(error);
         }
         console.log(hash);
     });
-    
+
     location.reload();
+}
+
+
+let file = undefined;
+function showModal() {
+    document.getElementById("modal").classList.add("modal-active");
+    document.getElementById("modal-body").classList.add("modal-body-active");
+}
+function hideModal() {
+    document.getElementById("modal").classList.remove("modal-active");
+    document.getElementById("modal-body").classList.remove("modal-body-active");
+}
+window.addEventListener("click", (evt) => {
+    if (evt.target === document.getElementById("modal")) {
+        hideModal();
+    }
+})
+function allowDrop(ev) {
+    ev.preventDefault();
+}
+
+function drop(ev) {
+    ev.preventDefault();
+    file = ev.dataTransfer.files[0];
+    document.getElementById("drag-and-drop").innerText = "File added!"
 }
