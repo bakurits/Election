@@ -10,7 +10,7 @@ contract Voting{
         uint id;
         string name;
         string description;
-        bytes32 image_hash;
+        string image_hash;
         uint num_votes;
     }
 
@@ -27,7 +27,7 @@ contract Voting{
         candidates[id].num_votes++;
     }
 
-    function addCandidate(string memory _name, string memory _description, bytes32 _image_hash) public{
+    function addCandidate(string memory _name, string memory _description, string memory _image_hash) public{
         if (creator == msg.sender){
             Candidate memory new_candidate = Candidate({
                 id : candidateCount,
@@ -45,8 +45,8 @@ contract Voting{
         return candidateCount;
     }
     
-    function getCandidateWithIndex(uint ind) public view 
-    returns(uint id, string memory name, string memory description, bytes32 image_hash, uint num_votes){
+    function getCandidate(uint ind) public view 
+    returns(uint id, string memory name, string memory description, string memory image_hash, uint num_votes){
         return (candidates[ind].id,
         candidates[ind].name, 
         candidates[ind].description, 
