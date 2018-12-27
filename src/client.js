@@ -65,12 +65,9 @@ function add_file() {
             var e = document.getElementById('options');
             var addr = e.options[e.selectedIndex].text;
             var vouting = VoutingContract.at(contractAddr);
-            console.log(res[0].hash);
             var name = $("#name").val()
             var description = $("#description").val()
-            /* vouting.getCandidateCount.call(function (e, r) {
-                console.log(r);
-            }); */
+           
             vouting.addCandidate.sendTransaction("asdasd", "dasd", "asdasd",{
                 from: addr,
                 gas: 123123,
@@ -81,17 +78,7 @@ function add_file() {
                 }
                 console.log(hash);
             });
-            /* vouting.getCandidateWithIndex.call(1, function (e, r) {
-                if (e) {
-                    console.log("error");
-                    return;
-                }
-                console.log(r);
-                console.log("yle");
-            });
-            console.log(vouting.addCandidate);
- */
-            //get_photo(res[0].hash, document.getElementById('sample-image'))
+            
         });
 
     };
