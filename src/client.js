@@ -125,6 +125,7 @@ function sendContract() {
             var addr = e.options[e.selectedIndex].text;
             var vouting = VoutingContract.at(addr);
             console.log(res[0].hash);
+            
             vouting.addCandidate($("#name").val(), $("#description").val(), res[0].hash);
 
             get_photo(res[0].hash, document.getElementById('sample-image'))

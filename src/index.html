@@ -333,7 +333,7 @@
         }
     ];
     var e = document.getElementById('options');
-    let contractAddr = "0xAc3075a97938C9A910c37AeB5b8a346431952F2F";
+    let contractAddr = "0xe040370f5155bc2157ebb7955015fF03090F70F6";
     var VoutingContract = web3.eth.contract(abi, contractAddr);
     var addr = e.options[e.selectedIndex].text;
     var vouting = VoutingContract.at(contractAddr);
