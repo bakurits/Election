@@ -105,7 +105,34 @@ function vote(ind) {
 
     location.reload();
 }
+function sendContract() {
+    console.log(file);
+    var reader = new FileReader();
+    reader.onloadend = function () {
+        const files = [
+            {
+                path: file.name,
+                content: ipfs.types.Buffer.from(reader.result)
+            }
+        ]
+        ipfs.add(files, function (err, res) {
+            if(err) {
+                console.error(err)
+                return
+            }
 
+            var e = document.getElementById('options');
+            var addr = e.options[e.selectedIndex].text;
+            var vouting = VoutingContract.at(addr);
+            console.log(res[0].hash);
+            vouting.addCandidate($("#name").val(), $("#description").val(), res[0].hash);
+
+            get_photo(res[0].hash, document.getElementById('sample-image'))
+        });
+
+    };
+    reader.readAsArrayBuffer(file);
+}
 
 let file = undefined;
 function showModal() {
