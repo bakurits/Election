@@ -206,132 +206,104 @@
 
 <script>
 
-    let abi = [
+    let abi =[
+    {
+      "inputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "constructor",
+      "signature": "constructor"
+    },
+    {
+      "constant": false,
+      "inputs": [
         {
-            "inputs": [],
-            "payable": false,
-            "stateMutability": "nonpayable",
-            "type": "constructor",
-            "signature": "constructor"
-        },
-        {
-            "constant": false,
-            "inputs": [
-                {
-                    "name": "name_",
-                    "type": "bytes32"
-                }
-            ],
-            "name": "vote",
-            "outputs": [],
-            "payable": false,
-            "stateMutability": "nonpayable",
-            "type": "function",
-            "signature": "0xa69beaba"
-        },
-        {
-            "constant": false,
-            "inputs": [
-                {
-                    "name": "name_",
-                    "type": "bytes32"
-                },
-                {
-                    "name": "description_",
-                    "type": "bytes"
-                },
-                {
-                    "name": "image_hash_",
-                    "type": "bytes32"
-                }
-            ],
-            "name": "addCandidate",
-            "outputs": [],
-            "payable": false,
-            "stateMutability": "nonpayable",
-            "type": "function",
-            "signature": "0x2b34fc6d"
-        },
-        {
-            "constant": true,
-            "inputs": [
-                {
-                    "name": "name_",
-                    "type": "bytes32"
-                }
-            ],
-            "name": "getCandidateWithName",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "bytes32"
-                },
-                {
-                    "name": "",
-                    "type": "bytes"
-                },
-                {
-                    "name": "",
-                    "type": "bytes32"
-                },
-                {
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function",
-            "signature": "0x6ba4623a"
-        },
-        {
-            "constant": true,
-            "inputs": [],
-            "name": "getCandidateCount",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function",
-            "signature": "0x30a56347"
-        },
-        {
-            "constant": true,
-            "inputs": [
-                {
-                    "name": "ind",
-                    "type": "uint256"
-                }
-            ],
-            "name": "getCandidateWithIndex",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "bytes32"
-                },
-                {
-                    "name": "",
-                    "type": "bytes"
-                },
-                {
-                    "name": "",
-                    "type": "bytes32"
-                },
-                {
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function",
-            "signature": "0xc03af9d9"
+          "name": "id",
+          "type": "uint256"
         }
-    ];
+      ],
+      "name": "vote",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "signature": "0x0121b93f"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_name",
+          "type": "string"
+        },
+        {
+          "name": "_description",
+          "type": "string"
+        },
+        {
+          "name": "_image_hash",
+          "type": "bytes32"
+        }
+      ],
+      "name": "addCandidate",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "signature": "0x71e4a420"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getCandidateCount",
+      "outputs": [
+        {
+          "name": "count",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function",
+      "signature": "0x30a56347"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "ind",
+          "type": "uint256"
+        }
+      ],
+      "name": "getCandidateWithIndex",
+      "outputs": [
+        {
+          "name": "id",
+          "type": "uint256"
+        },
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "description",
+          "type": "string"
+        },
+        {
+          "name": "image_hash",
+          "type": "bytes32"
+        },
+        {
+          "name": "num_votes",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function",
+      "signature": "0xc03af9d9"
+    }
+  ];
     var e = document.getElementById('options');
     let contractAddr = "0xe040370f5155bc2157ebb7955015fF03090F70F6";
     var VoutingContract = web3.eth.contract(abi, contractAddr);
