@@ -72,9 +72,13 @@ function add_file() {
                 console.log(r);
             }); */
             vouting.addCandidate.sendTransaction("asdasd", "dasd", "asdasd",{
-                from: web3.eth.defaultAccount,
+                from: addr,
+                gas: 123123,
                 data: "asdasd" // deploying a contracrt
             }, function(error, hash){
+                if (error){
+                    console.log(error);
+                }
                 console.log(hash);
             });
             /* vouting.getCandidateWithIndex.call(1, function (e, r) {

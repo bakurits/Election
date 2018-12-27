@@ -41,7 +41,7 @@ contract Voting{
 
     }
 
-    function getCandidateWithName(bytes32 name_) public view returns(bytes32, bytes memory,bytes32, uint){
+    function getCandidateWithName(bytes32 name_) public view returns(bytes32 name, bytes memory description, bytes32 image_hash, uint num_votes){
         return (candidates[name_].name, candidates[name_].description, candidates[name_].image_hash, candidates[name_].num_votes);
     }
 
@@ -49,7 +49,7 @@ contract Voting{
         return candidateCount;
     }
     
-    function getCandidateWithIndex(uint ind) public view returns(bytes32, bytes memory,bytes32, uint){
+    function getCandidateWithIndex(uint ind) public view returns(bytes32 name, bytes memory description, bytes32 image_hash, uint num_votes){
         return (candidates[candidatesWithInd[ind]].name, 
         candidates[candidatesWithInd[ind]].description, 
         candidates[candidatesWithInd[ind]].image_hash,
