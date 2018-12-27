@@ -50,21 +50,17 @@ function vote(ind) {
     console.log(ind);
 
     vouting.vote.sendTransaction(ind, {
-        from: addr,
+        from: addr, 
         gas: 123123,
         data: "asdasd" // deploying a contracrt
     }, function (error, hash) {
         if (error) {
-            console.log(error);
+            console.log(error); 
         }
         console.log(hash);
+        location.reload();
     });
 
-    location.reload();
-}
-
-function voteForCandidate(idx) {
-    console.log(idx);
 }
 
 
@@ -103,6 +99,7 @@ function sendContract() {
                     console.log(error);
                 }
                 console.log(hash);
+                location.reload();
             });
 
         });

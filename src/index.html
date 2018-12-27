@@ -305,7 +305,7 @@
         }
     ];
     var e = document.getElementById('options');
-    let contractAddr = "0x50dac0B0666076B16E18Af0Bf7cEE6CAa9f618BA";
+    let contractAddr = "0x2F0E10Ad77A962007e86c33355302c7324Bd9E91";
     var VoutingContract = web3.eth.contract(abi, contractAddr);
     var addr = e.options[e.selectedIndex].text;
     var vouting = VoutingContract.at(contractAddr);
@@ -344,7 +344,7 @@
                         "            <img class=\"avatar-img\" src=\"data:image/png;base64," + encode(arr) + "\">\n" +
                         "            <p>" + res[1] + "</p>\n" +
                         "            <p>" + res[2] + "</p>\n" +
-                        "            <button class=\"vote-button\" onclick = \"voteForCandidate(" + res[0] + ")\">Vote</button>\n" +
+                        "            <button class=\"vote-button\" onclick = \"vote(" + res[0] + ")\">Vote</button>\n" +
                         "        </div>"
                     document.getElementById("candidates").innerHTML += addDiv;
                 });

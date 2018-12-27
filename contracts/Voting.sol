@@ -20,7 +20,7 @@ contract Voting{
 
     function vote(uint id) public{
         address sender = msg.sender;
-        require (id > 0 && id < candidateCount, "Id out of bounds");
+        require (id >= 0 && id < candidateCount, "Id out of bounds");
         if(voted[sender][id]) 
             return;
         voted[sender][id] = true;
