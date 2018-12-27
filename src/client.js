@@ -68,11 +68,26 @@ function add_file() {
             console.log(res[0].hash);
             var name = $("#name").val()
             var description = $("#description").val()
-            vouting.getCandidateCount.call(function (e, r) {
+            /* vouting.getCandidateCount.call(function (e, r) {
                 console.log(r);
+            }); */
+            vouting.addCandidate.sendTransaction("asdasd", "dasd", "asdasd",{
+                from: web3.eth.defaultAccount,
+                data: "asdasd" // deploying a contracrt
+            }, function(error, hash){
+                console.log(hash);
             });
-
-            get_photo(res[0].hash, document.getElementById('sample-image'))
+            /* vouting.getCandidateWithIndex.call(1, function (e, r) {
+                if (e) {
+                    console.log("error");
+                    return;
+                }
+                console.log(r);
+                console.log("yle");
+            });
+            console.log(vouting.addCandidate);
+ */
+            //get_photo(res[0].hash, document.getElementById('sample-image'))
         });
 
     };

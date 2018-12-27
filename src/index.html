@@ -10,10 +10,11 @@
 
 <script>
     if (typeof web3 !== 'undefined') {
-        web3 = new Web3(web3.currentProvider);
+        web3 = new Web3(new Web3.providers.HttpProvider("HTTP://127.0.0.1:7545"));
+        //web3 = new Web3(web3.currentProvider);
     } else {
         // set the provider you want from Web3.providers
-        web3 = new Web3(new Web3.providers.HttpProvider("HTTP://127.0.0.1:8545"));
+        web3 = new Web3(new Web3.providers.HttpProvider("HTTP://127.0.0.1:7545"));
     }
     console.log(web3.eth.accounts);
 
