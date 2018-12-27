@@ -168,21 +168,7 @@
             "signature": "0xc03af9d9"
         }
     ];
-    let contractAddr = "0xAc3075a97938C9A910c37AeB5b8a346431952F2F";
+    let contractAddr = "0x2F0E10Ad77A962007e86c33355302c7324Bd9E91";
     var VoutingContract = web3.eth.contract(abi, contractAddr);
-
-    // Voting button
-
-    $("Vote").click(function () {
-        var e = document.getElementById('options');
-        var addr = e.options[e.selectedIndex].text;
-        var vouting = VoutingContract.at(addr);
-        vouting.vote($("#name").val());
-
-
-    });
-
-
-
 
 </script>
