@@ -2,14 +2,14 @@ pragma solidity >0.4.22;
 
 contract Voting{
     address private creator;
-    mapping(bytes32 => Candidate) private candidates;
-    mapping(uint => bytes32) private candidatesWithInd;
-    mapping(address => mapping(bytes32 => bool)) private voted;
+    mapping(uint => Candidate) private candidates;
+    mapping(address => mapping(uint => bool)) private voted;
     uint private candidateCount;
 
     struct Candidate{
-        bytes32 name;
-        bytes description;
+        uint id;
+        string name;
+        string description;
         bytes32 image_hash;
         uint num_votes;
     }
@@ -18,42 +18,40 @@ contract Voting{
         creator = msg.sender;
     }
 
-    function vote(bytes32 name_) public{
+    function vote(uint id) public{
         address sender = msg.sender;
-        if(voted[sender][name_]) 
+        require (id > 0 && id < candidateCount, "Id out of bounds");
+        if(voted[sender][id]) 
             return;
-        voted[sender][name_] = true;
-        candidates[name_].num_votes++;
+        voted[sender][id] = true;
+        candidates[id].num_votes++;
     }
 
-    function addCandidate(bytes32 name_, bytes memory description_, bytes32 image_hash_) public{
+    function addCandidate(string memory _name, string memory _description, bytes32 _image_hash) public{
         if (creator == msg.sender){
             Candidate memory new_candidate = Candidate({
-                name : name_,
-                description : description_,
-                image_hash : image_hash_,
+                id : candidateCount,
+                name : _name,
+                description : _description,
+                image_hash : _image_hash,
                 num_votes : 0
             });
-            candidates[name_] = new_candidate;
-            candidatesWithInd[candidateCount] = name_;
+            candidates[candidateCount] = new_candidate;
             candidateCount++;
         }
-
     }
 
-    function getCandidateWithName(bytes32 name_) public view returns(bytes32 name, bytes memory description, bytes32 image_hash, uint num_votes){
-        return (candidates[name_].name, candidates[name_].description, candidates[name_].image_hash, candidates[name_].num_votes);
-    }
-
-    function getCandidateCount() public view returns(uint){
+    function getCandidateCount() public view returns(uint count){
         return candidateCount;
     }
     
-    function getCandidateWithIndex(uint ind) public view returns(bytes32 name, bytes memory description, bytes32 image_hash, uint num_votes){
-        return (candidates[candidatesWithInd[ind]].name, 
-        candidates[candidatesWithInd[ind]].description, 
-        candidates[candidatesWithInd[ind]].image_hash,
-        candidates[candidatesWithInd[ind]].num_votes);
+    function getCandidateWithIndex(uint ind) public view 
+    returns(uint id, string memory name, string memory description, bytes32 image_hash, uint num_votes){
+        return (candidates[ind].id,
+        candidates[ind].name, 
+        candidates[ind].description, 
+        candidates[ind].image_hash,
+        candidates[ind].num_votes);
     }
 
 }
