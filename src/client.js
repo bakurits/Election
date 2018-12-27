@@ -67,8 +67,8 @@ function add_file() {
             var vouting = VoutingContract.at(contractAddr);
             var name = $("#name").val()
             var description = $("#description").val()
-           
-            vouting.addCandidate.sendTransaction(name, description, res[0].hash,{
+
+            vouting.addCandidate.sendTransaction(name, description, res[0].hash, {
                 from: addr,
                 gas: 123123,
                 data: "asdasd" // deploying a contracrt
@@ -83,6 +83,27 @@ function add_file() {
 
     };
     reader.readAsArrayBuffer(file);
+}
+
+function vote(ind) {
+    var e = document.getElementById('options');
+    var addr = e.options[e.selectedIndex].text;
+    var vouting = VoutingContract.at(contractAddr);
+    console.log(addr);
+    console.log(ind);
+
+    vouting.vote.sendTransaction(ind, {
+        from: addr,
+        gas: 123123,
+        data: "asdasd" // deploying a contracrt
+    }, function (error, hash) {
+        if (error) {
+            console.log(error);
+        }
+        console.log(hash);
+    });
+
+    location.reload();
 }
 
 
