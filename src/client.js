@@ -67,7 +67,7 @@ function add_file() {
             var vouting = VoutingContract.at(contractAddr);
             var name = $("#name").val()
             var description = $("#description").val()
-           
+            
             vouting.addCandidate.sendTransaction(name, description, res[0].hash,{
                 from: addr,
                 gas: 123123,
