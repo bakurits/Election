@@ -45,7 +45,7 @@ contract Voting{
         return candidateCount;
     }
     
-    function getCandidateWithIndex(uint ind) public view 
+    function getCandidate(uint ind) public view 
     returns(uint id, string memory name, string memory description, string memory image_hash, uint num_votes){
         return (candidates[ind].id,
         candidates[ind].name, 
