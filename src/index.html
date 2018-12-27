@@ -20,7 +20,7 @@
 </script>
 
 <body>
-    
+
     <input type="file" name="userPic" id="upload-image" accept="image/*">
     <button value="Upload Image" name="submit" onclick="add_file()"></button>
 
@@ -30,8 +30,9 @@
 
 <script>
     let accounts = web3.eth.accounts;
+    web3.eth.defaultAccount = accounts[0];
     select_div = "<select id =\"options\">";
-    for (let i = 1; i < accounts.length; i++) {
+    for (let i = 0; i < accounts.length; i++) {
         select_div += "<option value=\"" + accounts[i] + "\">" + accounts[i] + "</option>";
     }
     select_div += "</select>";
@@ -40,9 +41,9 @@
 
 <script>
 
-    var VoutingContract = web3.eth.contract([
+    let abi = [
         {
-            "constant": false,
+            "constant": "false",
             "inputs": [
                 {
                     "name": "name_",
@@ -114,11 +115,13 @@
             "stateMutability": "nonpayable",
             "type": "constructor"
         }
-    ]);
+    ];
+    let contractAddr = "0xAc3075a97938C9A910c37AeB5b8a346431952F2F";
+    var VoutingContract = new web3.eth.contract(abi, contractAddr);
 
     // Voting button
 
-    $("Vote").click(function(){
+    $("Vote").click(function () {
         var e = document.getElementById('options');
         var addr = e.options[e.selectedIndex].text;
         var vouting = VoutingContract.at(addr);
