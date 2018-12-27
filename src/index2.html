@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GPay</title>
+    <script>
+        let file = undefined;
+        function showModal() {
+            document.getElementById("modal").classList.add("modal-active");
+            document.getElementById("modal-body").classList.add("modal-body-active");
+        }
+        function hideModal() {
+            document.getElementById("modal").classList.remove("modal-active");
+            document.getElementById("modal-body").classList.remove("modal-body-active");
+        }
+        window.addEventListener("click", (evt) => {
+            if(evt.target===document.getElementById("modal")){
+                hideModal();
+            }
+        })
+        function allowDrop(ev) {
+            ev.preventDefault();
+        }
+
+        function drop(ev) {
+            ev.preventDefault();
+            file = ev.dataTransfer.files[0];
+            document.getElementById("drag-and-drop").innerText= "File added!"
+        }
+        function sendContract() {
+            console.log(file);
+            var reader = new FileReader();
+            reader.onloadend = function () {
+                const files = [
+                    {
+                        path: file.name,
+                        content: ipfs.types.Buffer.from(reader.result)
+                    }
+                ]
+                ipfs.add(files, function (err, res) {
+                    if(err) {
+                        console.error(err)
+                        return
+                    }
+
+                    var e = document.getElementById('options');
+                    var addr = e.options[e.selectedIndex].text;
+                    var vouting = VoutingContract.at(addr);
+                    console.log(res[0].hash);
+                    vouting.addCandidate($("#name").val(), $("#description").val(), res[0].hash);
+
+                    get_photo(res[0].hash, document.getElementById('sample-image'))
+                });
+
+            };
+            reader.readAsArrayBuffer(file);
+        }
+    </script>
+    <style>
+        body, html{
+            margin:0;
+            padding:0;
+            width:100%;
+            position: relative;
+        }
+        .container{
+            width:100%;
+            display:flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .candidates{
+            width:100%;
+            justify-content: center;
+            align-items: center;
+            display:flex;
+            flex-direction: column;
+        }
+        .avatar-img{
+            width:80px;
+            height:80px;
+            border-radius: 40px;
+            border: 2px solid #38801c;
+        }
+        .candidate-item{
+            display:flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            margin:3px;
+        }
+        p{
+            padding:0 10px ;
+            margin: auto;
+            font-family: Arial,serif;
+            font-size:90%;
+        }
+        .vote-button{
+            height: 30%;
+            width:60px;
+            margin: auto auto auto 20px;
+            background: white;
+            border:solid 1px;
+            padding:5px;
+            border-radius:5px;
+            color: black;
+            transition: all 500ms;
+        }
+        .vote-button:hover{
+            cursor: pointer;
+            background: #383838;
+            color: white;
+            transition: all 500ms;
+        }
+        .header{
+            margin:0;
+            display:flex;
+            flex-direction: row;
+            justify-content: space-between;
+            width: 100%;
+        }
+        .add-candidate-button{
+            height:40px;
+            width:80px;
+            margin: auto 40px auto auto;
+            border:solid 1px black;
+            background: white;
+            border-radius: 10px;
+            color:black;
+            transition: all 500ms;
+        }
+        .add-candidate-button:hover{
+            cursor: pointer;
+            color:white;
+            background: #383838;
+            transition: all 500ms;
+        }
+        .modal{
+            display: none;
+            position:absolute;
+            background: rgba(0,0,0,.75);
+            width:100%;
+            height: 100%;
+            justify-content: center;
+            align-items: start;
+        }
+        .modal-active{
+            display:flex;
+        }
+        .modal-body{
+            margin-top:0px;
+            height: 250px;
+            width:500px;
+            background: white;
+            border:solid 1px black;
+            border-radius: 10px;
+            opacity: .5;
+            overflow: hidden;
+        }
+        .modal-body-active{
+            margin-top:80px;
+            opacity: 1;
+        }
+        .modal-input-container{
+            height:50px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        .modal-input{
+            height:30px;
+            width:40%;
+            border:solid 1px black;
+            border-radius: 10px;
+            padding-left: 10px;
+            font-size: 85%;
+        }
+        .drag-and-drop{
+            height:calc(100% - 105px);
+        }
+
+        .submit-contract{
+            height:40px;
+            width: 43%;
+            margin:5px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgb(56, 128, 28);
+            border-radius: 10px;
+        }
+        .submit-contract:hover{
+            cursor: pointer;
+            background: rgb(54, 108, 26);
+        }
+        .drag-and-drop{
+            border: solid 2px rgb(50,50,50);
+            border-radius: 10px;
+            margin: 0 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: rgb(150,150,150);
+        }
+    </style>
+</head>
+<body>
+<div id="modal" class="modal">
+    <div id="modal-body" class="modal-body">
+        <div class="modal-input-container">
+            <input type="text" placeholder="saxeli" class="modal-input">
+            <input type="text" placeholder="gvari" class="modal-input">
+        </div>
+        <div class="drag-and-drop" id="drag-and-drop" ondrop="drop(event)" ondragover="allowDrop(event)">
+            Drag and drop files here
+        </div>
+        <div class="submit-contract" onclick="sendContract()">
+            Submit
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="header">
+        <img src="data:image/png;base64,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"
+             id="sample-image">
+        <button class="add-candidate-button" onclick="showModal()">Add</button>
+    </div>
+    <div id = "candidates" class="candidates">
+
+        <script>
+            var candidateCount = 5;
+            for(let i=0;i<candidateCount;i++){
+                var addDiv = "<div class=\"candidate-item\">\n" +
+                    "            <img class=\"avatar-img\" src=\"maxresdefault.jpg\">\n" +
+                    "            <p>saxeli</p>\n" +
+                    "            <p>gvari</p>\n" +
+                    "            <button class=\"vote-button\">Vote</button>\n" +
+                    "        </div>"
+                document.getElementById("candidates").innerHTML += addDiv;
+
+            }
+
+        </script>
+
+
+    </div>
+</div>
+</body>
+<script>
+    let accounts = web3.eth.accounts;
+    web3.eth.defaultAccount = accounts[0];
+    select_div = "<select id =\"options\">";
+    for (let i = 0; i < accounts.length; i++) {
+        select_div += "<option value=\"" + accounts[i] + "\">" + accounts[i] + "</option>";
+    }
+    select_div += "</select>";
+    document.body.innerHTML += select_div;
+</script>
+
+<script>
+
+    let abi = [
+        {
+            "inputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "constructor",
+            "signature": "constructor"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "name_",
+                    "type": "bytes32"
+                }
+            ],
+            "name": "vote",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function",
+            "signature": "0xa69beaba"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "name_",
+                    "type": "bytes32"
+                },
+                {
+                    "name": "description_",
+                    "type": "bytes"
+                },
+                {
+                    "name": "image_hash_",
+                    "type": "bytes32"
+                }
+            ],
+            "name": "addCandidate",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function",
+            "signature": "0x2b34fc6d"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "name_",
+                    "type": "bytes32"
+                }
+            ],
+            "name": "getCandidateWithName",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "bytes32"
+                },
+                {
+                    "name": "",
+                    "type": "bytes"
+                },
+                {
+                    "name": "",
+                    "type": "bytes32"
+                },
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function",
+            "signature": "0x6ba4623a"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "getCandidateCount",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function",
+            "signature": "0x30a56347"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "ind",
+                    "type": "uint256"
+                }
+            ],
+            "name": "getCandidateWithIndex",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "bytes32"
+                },
+                {
+                    "name": "",
+                    "type": "bytes"
+                },
+                {
+                    "name": "",
+                    "type": "bytes32"
+                },
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function",
+            "signature": "0xc03af9d9"
+        }
+    ];
+    let contractAddr = "0xAc3075a97938C9A910c37AeB5b8a346431952F2F";
+    var VoutingContract = web3.eth.contract(abi, contractAddr);
+
+    // Voting button
+
+    $("Vote").click(function () {
+        var e = document.getElementById('options');
+        var addr = e.options[e.selectedIndex].text;
+        var vouting = VoutingContract.at(addr);
+        vouting.vote($("#name").val());
+
+
+    });
+
+
+
+
+</script>
+</html>
