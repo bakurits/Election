@@ -3,7 +3,7 @@ pragma solidity >0.4.22;
 contract Voting{
     address private creator;
     mapping(bytes32 => Candidate) private candidates;
-    mapping(uint => Candidate) private candidatesWithInd;
+    mapping(uint => bytes32) private candidatesWithInd;
     mapping(address => mapping(bytes32 => bool)) private voted;
     uint private candidateCount;
 
@@ -35,7 +35,7 @@ contract Voting{
                 num_votes : 0
             });
             candidates[name_] = new_candidate;
-            candidatesWithInd[candidateCount]=new_candidate;
+            candidatesWithInd[candidateCount]=name_;
             candidateCount++;
         }
 
@@ -48,7 +48,7 @@ contract Voting{
         return candidateCount;
     }
     function getCandidateWithIndex(uint ind) public view returns(bytes32, bytes memory,bytes32, uint){
-        return (candidates[ind].name, candidates[ind].description, candidates[ind].image_hash, candidates[ind].num_votes);
+        return (candidates[candidatesWithInd[ind]].name, candidates[candidatesWithInd[ind]].description, candidates[candidatesWithInd[ind]].image_hash, candidates[candidatesWithInd[ind]].num_votes);
     }
 
 }
