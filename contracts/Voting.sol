@@ -54,4 +54,16 @@ contract Voting{
         candidates[ind].num_votes);
     }
 
+    function getAllCandidates(){
+        string json = "[";
+        for(int i=0;i<candidateCount;i++){
+            json += "{ \"name\" : " + candidates[ind].name + ",";
+            json += " \"description\" : " + candidates[ind].description + ",";
+            json += " \"image_hash\" : " + candidates[ind].image_hash + ",";
+            json += " \"num_votes\" : " + candidates[ind].num_votes + "}";
+            if(i<candidateCount-1) json+=",";
+        }
+        json+="]";
+    }
+
 }

@@ -168,11 +168,12 @@
 </script>
 <body>
 
+<body>
 <div id="modal" class="modal">
     <div id="modal-body" class="modal-body">
         <div class="modal-input-container">
-            <input type="text" placeholder="saxeli" class="modal-input" id = "name">
-            <input type="text" placeholder="gvari" class="modal-input" id = "description">
+            <input type="text" placeholder="saxeli" class="modal-input">
+            <input type="text" placeholder="gvari" class="modal-input">
         </div>
         <div class="drag-and-drop" id="drag-and-drop" ondrop="drop(event)" ondragover="allowDrop(event)">
             Drag and drop files here
@@ -205,106 +206,134 @@
 
 <script>
 
-    let abi =[
-    {
-      "inputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "constructor",
-      "signature": "constructor"
-    },
-    {
-      "constant": false,
-      "inputs": [
+    let abi = [
         {
-          "name": "id",
-          "type": "uint256"
+            "inputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "constructor",
+            "signature": "constructor"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "name_",
+                    "type": "bytes32"
+                }
+            ],
+            "name": "vote",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function",
+            "signature": "0xa69beaba"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "name_",
+                    "type": "bytes32"
+                },
+                {
+                    "name": "description_",
+                    "type": "bytes"
+                },
+                {
+                    "name": "image_hash_",
+                    "type": "bytes32"
+                }
+            ],
+            "name": "addCandidate",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function",
+            "signature": "0x2b34fc6d"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "name_",
+                    "type": "bytes32"
+                }
+            ],
+            "name": "getCandidateWithName",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "bytes32"
+                },
+                {
+                    "name": "",
+                    "type": "bytes"
+                },
+                {
+                    "name": "",
+                    "type": "bytes32"
+                },
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function",
+            "signature": "0x6ba4623a"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "getCandidateCount",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function",
+            "signature": "0x30a56347"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "ind",
+                    "type": "uint256"
+                }
+            ],
+            "name": "getCandidateWithIndex",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "bytes32"
+                },
+                {
+                    "name": "",
+                    "type": "bytes"
+                },
+                {
+                    "name": "",
+                    "type": "bytes32"
+                },
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function",
+            "signature": "0xc03af9d9"
         }
-      ],
-      "name": "vote",
-      "outputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function",
-      "signature": "0x0121b93f"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "_name",
-          "type": "string"
-        },
-        {
-          "name": "_description",
-          "type": "string"
-        },
-        {
-          "name": "_image_hash",
-          "type": "bytes32"
-        }
-      ],
-      "name": "addCandidate",
-      "outputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function",
-      "signature": "0x71e4a420"
-    },
-    {
-      "constant": true,
-      "inputs": [],
-      "name": "getCandidateCount",
-      "outputs": [
-        {
-          "name": "count",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function",
-      "signature": "0x30a56347"
-    },
-    {
-      "constant": true,
-      "inputs": [
-        {
-          "name": "ind",
-          "type": "uint256"
-        }
-      ],
-      "name": "getCandidateWithIndex",
-      "outputs": [
-        {
-          "name": "id",
-          "type": "uint256"
-        },
-        {
-          "name": "name",
-          "type": "string"
-        },
-        {
-          "name": "description",
-          "type": "string"
-        },
-        {
-          "name": "image_hash",
-          "type": "bytes32"
-        },
-        {
-          "name": "num_votes",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function",
-      "signature": "0xc03af9d9"
-    }
-  ];
+    ];
     var e = document.getElementById('options');
-    let contractAddr = "0x2F0E10Ad77A962007e86c33355302c7324Bd9E91";
+    let contractAddr = "0x9fEfcAb41C2796C8202505eEF5a8C2807F15d04f";
     var VoutingContract = web3.eth.contract(abi, contractAddr);
     var addr = e.options[e.selectedIndex].text;
     var vouting = VoutingContract.at(contractAddr);
@@ -331,6 +360,7 @@
         let candidateCount = res;
         console.log(res);
         for (let i = 0; i < candidateCount; i++) {
+
             var addDiv = "<div class=\"candidate-item\">\n" +
                 "            <img class=\"avatar-img\" src=\"maxresdefault.jpg\">\n" +
                 "            <p>saxeli</p>\n" +
