@@ -18,13 +18,14 @@ contract Voting{
         creator = msg.sender;
     }
 
-    function vote(uint id) public{
+    function vote(uint id) public returns(bool){
         address sender = msg.sender;
         require (id >= 0 && id < candidateCount, "Id out of bounds");
         if(voted[sender][id]) 
-            return;
+            return false;
         voted[sender][id] = true;
         candidates[id].num_votes++;
+        return true;
     }
 
     function addCandidate(string memory _name, string memory _description, string memory _image_hash) public{
@@ -54,16 +55,5 @@ contract Voting{
         candidates[ind].num_votes);
     }
 
-    function getAllCandidates(){
-        string json = "[";
-        for(int i=0;i<candidateCount;i++){
-            json += "{ \"name\" : " + candidates[ind].name + ",";
-            json += " \"description\" : " + candidates[ind].description + ",";
-            json += " \"image_hash\" : " + candidates[ind].image_hash + ",";
-            json += " \"num_votes\" : " + candidates[ind].num_votes + "}";
-            if(i<candidateCount-1) json+=",";
-        }
-        json+="]";
-    }
 
 }

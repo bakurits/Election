@@ -206,29 +206,7 @@
 
 <script>
 
-    let abi = [
-        {
-            "inputs": [],
-            "payable": false,
-            "stateMutability": "nonpayable",
-            "type": "constructor",
-            "signature": "constructor"
-        },
-        {
-            "constant": false,
-            "inputs": [
-                {
-                    "name": "id",
-                    "type": "uint256"
-                }
-            ],
-            "name": "vote",
-            "outputs": [],
-            "payable": false,
-            "stateMutability": "nonpayable",
-            "type": "function",
-            "signature": "0x0121b93f"
-        },
+    let abi =[
         {
             "constant": false,
             "inputs": [
@@ -249,23 +227,32 @@
             "outputs": [],
             "payable": false,
             "stateMutability": "nonpayable",
-            "type": "function",
-            "signature": "0xad71f8dc"
+            "type": "function"
         },
         {
-            "constant": true,
             "inputs": [],
-            "name": "getCandidateCount",
-            "outputs": [
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "constructor"
+        },
+        {
+            "constant": false,
+            "inputs": [
                 {
-                    "name": "count",
+                    "name": "id",
                     "type": "uint256"
                 }
             ],
+            "name": "vote",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "bool"
+                }
+            ],
             "payable": false,
-            "stateMutability": "view",
-            "type": "function",
-            "signature": "0x30a56347"
+            "stateMutability": "nonpayable",
+            "type": "function"
         },
         {
             "constant": true,
@@ -300,8 +287,21 @@
             ],
             "payable": false,
             "stateMutability": "view",
-            "type": "function",
-            "signature": "0x35b8e820"
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "getCandidateCount",
+            "outputs": [
+                {
+                    "name": "count",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
         }
     ];
     var e = document.getElementById('options');
@@ -310,16 +310,6 @@
     var addr = e.options[e.selectedIndex].text;
     var vouting = VoutingContract.at(contractAddr);
 
-    // Voting button
-
-    $("Vote").click(function () {
-        var e = document.getElementById('options');
-        var addr = e.options[e.selectedIndex].text;
-        var vouting = VoutingContract.at(addr);
-        vouting.vote($("#name").val());
-
-
-    });
 
 
 </script>
@@ -345,6 +335,7 @@
                         "            <p>" + res[1] + "</p>\n" +
                         "            <p>" + res[2] + "</p>\n" +
                         "            <button class=\"vote-button\" onclick = \"vote(" + res[0] + ")\">Vote</button>\n" +
+                        "            <p id=\"voteCount" + res[0].toString() + "\">" + res[4] + "</p>\n" +
                         "        </div>"
                     document.getElementById("candidates").innerHTML += addDiv;
                 });

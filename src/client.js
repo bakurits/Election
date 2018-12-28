@@ -53,12 +53,15 @@ function vote(ind) {
         from: addr, 
         gas: 123123,
         data: "asdasd" // deploying a contracrt
-    }, function (error, hash) {
+    }, function (error, res) {
         if (error) {
             console.log(error); 
         }
-        console.log(hash);
-        location.reload();
+        console.log(res);
+        if(res==true){
+            document.getElementById("voteCount"+ind.toString()).innerHTML++;
+        }
+
     });
 
 }
