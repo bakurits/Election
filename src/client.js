@@ -59,7 +59,8 @@ function vote(ind) {
         }
         console.log(res);
         if(res==true){
-            document.getElementById("voteCount"+ind.toString()).innerHTML++;
+            var voteCount = document.getElementById("voteCount"+ind.toString()).innerHTML;
+            voteCount = parseInt(voteCount)+1;
         }
 
     });
