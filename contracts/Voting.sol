@@ -23,12 +23,12 @@ contract Voting{
         address sender = msg.sender;
         require (id >= 0 && id < candidateCount, "Id out of bounds");
         if(voted[sender][id]){
-            voteEvent(sender,false);
+            emit voteEvent(sender,false);
             return false;
         }
         voted[sender][id] = true;
         candidates[id].num_votes++;
-        voteEvent(sender,true);
+        emit voteEvent(sender,true);
         return true;
     }
 
