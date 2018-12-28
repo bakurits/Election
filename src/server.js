@@ -1,5 +1,7 @@
-import express from 'express';
-import { readFileSync } from 'fs';
+
+const express = require('express')
+const fs = require('fs');
+var ipfsClient = require('ipfs-http-client')
 const app = express()
 const port = 3000
 app.get('/', function (req, res) {
@@ -12,7 +14,7 @@ app.get('/web3.js', function (req, res) {
     res.sendFile(__dirname + '/js/web3.min.js');
 });
 app.get('/smart-contract-info', function (req, res) {
-    var obj = JSON.parse(readFileSync('build/contracts/Voting.json', 'utf8'));
+    var obj = JSON.parse(fs.readFileSync('build/contracts/Voting.json', 'utf8'));
 
     let abi = obj.abi;
 

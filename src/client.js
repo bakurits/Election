@@ -48,7 +48,6 @@ function get_photo(file_hash, image_div) {
 function vote(ind) {
     var e = document.getElementById('options');
     var addr = e.options[e.selectedIndex].text;
-    var vouting = VoutingContract.at(contractAddr);
 
     vouting.vote.sendTransaction(ind, {
         from: addr,
@@ -89,7 +88,6 @@ function sendContract() {
 
             var e = document.getElementById('options');
             var addr = e.options[e.selectedIndex].text;
-            var vouting = VoutingContract.at(contractAddr);
             var name = $("#name").val()
             var description = $("#description").val()
             vouting.addCandidate.sendTransaction(name, description, res[0].hash, {
@@ -119,6 +117,7 @@ function drawCandidates() {
             return;
         }
         let candidateCount = res;
+        console.log(res);
         for (let i = 0; i < candidateCount; i++) {
             vouting.getCandidate.call(i, function (err, res) {
                 if (err) {
