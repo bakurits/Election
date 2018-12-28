@@ -5,6 +5,7 @@ contract Voting{
     mapping(uint => Candidate) private candidates;
     mapping(address => mapping(uint => bool)) private voted;
     uint private candidateCount;
+    event voteEvent(address _from, bool _value);
 
     struct Candidate{
         uint id;
@@ -21,10 +22,13 @@ contract Voting{
     function vote(uint id) public returns(bool){
         address sender = msg.sender;
         require (id >= 0 && id < candidateCount, "Id out of bounds");
-        if(voted[sender][id]) 
+        if(voted[sender][id]){
+            voteEvent(sender,false);
             return false;
+        }
         voted[sender][id] = true;
         candidates[id].num_votes++;
+        voteEvent(sender,true);
         return true;
     }
 
