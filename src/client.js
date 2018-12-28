@@ -49,22 +49,7 @@ function vote(ind) {
     var e = document.getElementById('options');
     var addr = e.options[e.selectedIndex].text;
     var vouting = VoutingContract.at(contractAddr);
-    var voteEvent = vouting.voteEvent({
-        from: addr,
-        gas: 123123,
-        data: "asdasd" // deploying a contracrt
-    });
 
-    voteEvent.watch(function(err, res) {
-        if (err) {
-            console.log(err)
-            return;
-        }
-        if(res.args._value==true){
-            var voteCount = document.getElementById("voteCount" + ind.toString()).innerHTML;
-            voteCount = parseInt(voteCount) + 1;
-        }
-    });
 
     vouting.vote.sendTransaction(ind, {
         from: addr,
@@ -75,6 +60,7 @@ function vote(ind) {
             console.log(error);
         }
         console.log(hash);
+        location.reload();
     });
 
 }
