@@ -41,33 +41,36 @@ function get_photo(file_hash, image_div) {
     });
 }
 
-
+/**
+ * This method handles voting
+ * @param {Number} ind index of candidate
+ */
 function vote(ind) {
     var e = document.getElementById('options');
     var addr = e.options[e.selectedIndex].text;
     var vouting = VoutingContract.at(contractAddr);
-    console.log(addr);
-    console.log(ind);
 
     vouting.vote.sendTransaction(ind, {
-        from: addr, 
+        from: addr,
         gas: 123123,
         data: "asdasd" // deploying a contracrt
     }, function (error, res) {
         if (error) {
-            console.log(error); 
+            console.log(error);
         }
-        console.log(res);
-        if(res==true){
-            var voteCount = document.getElementById("voteCount"+ind.toString()).innerHTML;
-            voteCount = parseInt(voteCount)+1;
+
+        if (res == true) {
+            var voteCount = document.getElementById("voteCount" + ind.toString()).innerHTML;
+            voteCount = parseInt(voteCount) + 1;
         }
 
     });
 
 }
 
-
+/**
+ * This method handles 
+ */
 function sendContract() {
     console.log(file)
     var reader = new FileReader();
@@ -79,7 +82,6 @@ function sendContract() {
             }
         ]
         ipfs.add(files, function (err, res) {
-            // ერრორი რო გავტესტოთ რა
             if (err) {
                 console.error(err)
                 return
@@ -90,19 +92,14 @@ function sendContract() {
             var vouting = VoutingContract.at(contractAddr);
             var name = $("#name").val()
             var description = $("#description").val()
-            console.log(name);
-            console.log(description);
-            console.log(addr);
-            console.log(res[0].hash)
             vouting.addCandidate.sendTransaction(name, description, res[0].hash, {
                 from: addr,
-                gas: 1231233,
-                data: "asdasd" // deploying a contracrt
+                gas: 1231233, // TODO: must be changed to something reasonable
+                data: "asdasd" // TODO: must be changed to something reasonable
             }, function (error, hash) {
                 if (error) {
                     console.log(error);
                 }
-                console.log(hash);
                 location.reload();
             });
 
@@ -112,6 +109,40 @@ function sendContract() {
     reader.readAsArrayBuffer(file);
 }
 
+/**
+ * This method handles candidates' appearance on page
+ */
+function drawCandidates() {
+    vouting.getCandidateCount.call(function (err, res) {
+        if (err) {
+            console.log("Error occured");
+            return;
+        }
+        let candidateCount = res;
+        for (let i = 0; i < candidateCount; i++) {
+            vouting.getCandidate.call(i, function (err, res) {
+                if (err) {
+                    console.log("Error occured");
+                    return;
+                }
+                ipfs.get(res[3], function (err, res1) {
+                    let arr = res1[0].content;
+                    var addDiv = "<div class=\"candidate-item\">\n" +
+                        "            <img class=\"avatar-img\" src=\"data:image/png;base64," + encode(arr) + "\">\n" +
+                        "            <p>" + res[1] + "</p>\n" +
+                        "            <p>" + res[2] + "</p>\n" +
+                        "            <button class=\"vote-button\" onclick = \"vote(" + res[0] + ")\">Vote</button>\n" +
+                        "            <p id=\"voteCount" + res[0].toString() + "\">" + res[4] + "</p>\n" +
+                        "        </div>"
+                    document.getElementById("candidates").innerHTML += addDiv;
+                });
+            });
+        }
+    });
+
+}
+
+///////// Some front-end stuff
 let file = undefined;
 function showModal() {
     document.getElementById("modal").classList.add("modal-active");
